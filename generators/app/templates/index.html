@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title><%= title %></title>
+
+        <script>
+          var elem = document.createElement('script')
+          // var arr = window.RUNTIME_ENV === 'prd'
+          //     ? [
+          //       'https://b.pingan.com.cn/app_com/pab/1.0.0/pab.js',
+          //       'https://b.pingan.com.cn/app_com/aladdin/ibank/1.0.16/aladdin.ibank.min.js',
+          //       'https://b.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js']
+          //     : [
+          //       'https://b-stg.pingan.com.cn/app_com/pab/1.0.0/pab.js',
+          //       'https://b-stg.pingan.com.cn/app_com/aladdin/ibank/1.0.16/aladdin.ibank.min.js',
+          //       'https://b-stg.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js']
+
+          var stgarr = ['https://b-stg.pingan.com.cn/app_com/pab/1.0.0/pab.js']
+          var prdarr = ['https://b.pingan.com.cn/app_com/pab/1.0.0/pab.js']
+
+          <% if (includeShare) { %>
+          stgarr.push('https://b-stg.share.com')
+          prdarr.push('https://b.demo.com')
+          <% } %>
+
+          <% if (includeWebtrends) { %>
+          stgarr.push('https://b-stg.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js')
+          prdarr.push('https://b.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js')
+          <% } %>
+
+          <% if (includeAuth) { %>
+          stgarr.push('https://b-stg.pingan.com.cn/app_com/authsdk/1.0.0/auth-sdk.js')
+          prdarr.push('https://b.pingan.com.cn/app_com/authsdk/1.0.0/auth-sdk.js')
+          <% } %>
+
+          var arr = window.RUNTIME_ENV === 'prd' ? prdarr : stgarr
+
+          for (var i = 0; i <= arr.length - 1; i++) {
+            elem.src = arr[i]
+            document.write(elem.outerHTML)
+          }
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

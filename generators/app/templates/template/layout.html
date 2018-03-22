@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Page title -->
+  <title>{% block title %}{% endblock %}</title>
+
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="//b.pingan.com.cn">
+  <meta name="renderer" content="webkit">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="description" content="平安银行，投资，保险，理财" />
+
+  <!-- Page specify stylesheet -->
+  {% block inlinestyle %}{% endblock %}
+
+  <script>
+    !(function() {
+      window.RUNTIME_ENV = (function envDetection() {
+        var exp = /.*\.pingan\.com(\.cn){0,1}/ig
+        var host = window.location.hostname || window.location.host
+
+        // match any main domain `*.pingan.com.cn | *.pingan.com`
+        // if not contain string 'stg' => mean production env
+        if (exp.test(host) && host.indexOf('stg') === -1) {
+          window.RUNTIME_ENV = 'prd'
+          return 'prd'
+        }
+
+        // if contain string 'stg' => mean staging env
+        if (exp.test(host) && host.indexOf('stg') > -1) {
+          window.RUNTIME_ENV = 'stg'
+          return 'stg'
+        }
+
+        //
+        if ( /10|127|localhost/.test(window.location.hostname) ) {
+          window.RUNTIME_ENV = 'dev'
+          return 'dev'
+        }
+
+        // otherwise 'stg'
+        // when production server contain stylesheet switch to 'prd'
+        window.RUNTIME_ENV = 'stg'
+        return 'stg'
+      })()
+
+      // sync load pab.js, aladdin.js
+      var elem = document.createElement('script')
+      var arr = window.RUNTIME_ENV === 'prd'
+          ? [
+            'https://b.pingan.com.cn/app_com/pab/1.0.0/pab.js',
+            'https://b.pingan.com.cn/app_com/aladdin/ibank/1.0.16/aladdin.ibank.min.js',
+            'https://b.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js']
+          : [
+            'https://b-stg.pingan.com.cn/app_com/pab/1.0.0/pab.js',
+            'https://b-stg.pingan.com.cn/app_com/aladdin/ibank/1.0.16/aladdin.ibank.min.js',
+            'https://b-stg.pingan.com.cn/app_com/webtrends/h5/2.0.0/banksdc_m.js']
+
+      for (var i = 0; i <= arr.length - 1; i++) {
+        elem.src = arr[i]
+        document.write(elem.outerHTML)
+      }
+    })()
+  </script>
+  <!-- head script -->
+  {% block head-script %}{% endblock %}
+</head>
+<body>
+  <div id="app">
+    <!-- Your Vue Component will be render here -->
+  </div>
+
+  {% block bodyscripts %}{% endblock %}
+
+  <script>
+    !(function() {
+      handleAddListener('load', getTiming)
+
+      function handleAddListener(type, fn) {
+        if(window.addEventListener) {
+          window.addEventListener(type, fn)
+        } else {
+          window.attachEvent('on' + type, fn)
+        }
+      }
+
+      function showPaintTimings() {
+        let obj = {}
+        try {
+          let performance = window.performance;
+          let performanceEntries = performance.getEntriesByType('paint');
+          performanceEntries.forEach( (performanceEntry, i, entries) => {
+            obj[performanceEntry.name] = performanceEntry.startTime;
+          });
+        } catch (e) {
+          console.log('Performance timing isn\'t supported.');
+        }
+
+        return obj
+      }
+
+      function getTiming() {
+        try {
+          var time = performance.timing;
+          var timingObj = {};
+
+          var loadTime = (time.loadEventEnd - time.loadEventStart) / 1000;
+
+          if(loadTime < 0) {
+            setTimeout(function() {
+              getTiming();
+            }, 200);
+            return;
+          }
+
+          timingObj['重定向时间'] = (time.redirectEnd - time.redirectStart) / 1000;
+          timingObj['DNS解析时间'] = (time.domainLookupEnd - time.domainLookupStart) / 1000;
+          timingObj['TCP完成握手时间'] = (time.connectEnd - time.connectStart) / 1000;
+          timingObj['HTTP请求响应完成时间'] = (time.responseEnd - time.requestStart) / 1000;
+          timingObj['DOM开始加载前所花费时间'] = (time.responseEnd - time.navigationStart) / 1000;
+          timingObj['DOM加载完成时间'] = (time.domComplete - time.domLoading) / 1000;
+          timingObj['DOM结构解析完成时间'] = (time.domInteractive - time.domLoading) / 1000;
+          timingObj['脚本加载时间'] = (time.domContentLoadedEventEnd - time.domContentLoadedEventStart) / 1000;
+          timingObj['onload事件时间'] = (time.loadEventEnd - time.loadEventStart) / 1000;
+          timingObj['页面完全加载时间'] = (timingObj['重定向时间'] + timingObj['DNS解析时间'] + timingObj['TCP完成握手时间'] + timingObj['HTTP请求响应完成时间'] + timingObj['DOM结构解析完成时间'] + timingObj['DOM加载完成时间']);
+
+          let paintTimings = showPaintTimings()
+          timingObj['首次渲染时间'] = paintTimings['first-paint']
+          timingObj['首次内容渲染时间'] = paintTimings['first-contentful-paint']
+
+          console.group('%c >>>>>>>>> PAGE PERFORMANCE TIMING <<<<<<<<<', 'background: #f7f7f7; color: #40407a')
+          for(item in timingObj) {
+            console.log('%c' + item + ": " + timingObj[item] + ' 毫秒(ms)', 'background: #f7f7f7; color: #30336b');
+          }
+          console.groupEnd('========= PAGE PERFORMANCE TIMING =========')
+        } catch (e) {
+          console.log('Performance timing isn\'t supported.');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
