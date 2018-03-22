@@ -1,10 +1,10 @@
-## USAGE
+#### USAGE
 
-### Install `Yomeon` as global
+##### Install `Yomeon` as global
 > npm install -g yo
 
-### Clone `generator-latte`
+##### Clone `generator-latte`
 > git clone https://github.com/objk/generator-latte.git
 
-### Change dir to `generator-latte` folder and run
+##### Change dir to `generator-latte` folder and run
 > cd `generator-latte` && npm link
