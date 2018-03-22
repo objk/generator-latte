@@ -2,7 +2,7 @@
 * @Author: WUZHILONG860
 * @Date:   2018-03-22 19:21:45
 * @Last Modified by:   WUZHILONG860
-* @Last Modified time: 2018-03-22 23:00:14
+* @Last Modified time: 2018-03-22 23:05:28
 */
 'use strict';
 
@@ -181,7 +181,7 @@ module.exports = class extends Generator {
 
       this.fs.copyTpl(
         this.templatePath('api/http-auth.js'),
-        this.destinationPath('src/api/index.js'),
+        this.destinationPath('src/api/index.js')
       );
     } else {
       this.fs.copyTpl(
