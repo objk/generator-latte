@@ -2,7 +2,7 @@
 * @Author: WUZHILONG860
 * @Date:   2018-03-22 19:21:45
 * @Last Modified by:   WUZHILONG860
-* @Last Modified time: 2018-03-22 23:05:28
+* @Last Modified time: 2018-03-22 23:09:01
 */
 'use strict';
 
@@ -119,12 +119,12 @@ module.exports = class extends Generator {
 
   writing() {
     this._copyTpl('package-lock.json', 'package-lock.json')
-    this._copyTpl('.babelrc', '.babelrc')
-    this._copyTpl('.editorconfig', '.editorconfig')
-    this._copyTpl('.eslintignore', '.eslintignore')
-    this._copyTpl('.eslintrc.js', '.eslintrc.js')
-    this._copyTpl('.gitignore', '.gitignore')
-    this._copyTpl('.postcssrc.js', '.postcssrc.js')
+    this._copyTpl('_babelrc', '.babelrc')
+    this._copyTpl('_editorconfig', '.editorconfig')
+    this._copyTpl('_eslintignore', '.eslintignore')
+    this._copyTpl('_eslintrc.js', '.eslintrc.js')
+    this._copyTpl('_gitignore', '.gitignore')
+    this._copyTpl('_postcssrc.js', '.postcssrc.js')
     this._copyTpl('README.md', 'README.md')
 
     this._copyTpl('build/', 'build/')
