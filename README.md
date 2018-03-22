@@ -6,6 +6,6 @@
 ##### Clone `generator-latte`
 > git clone https://github.com/objk/generator-latte.git
 
-##### Change dir to `generator-latte` folder and run `npm link`
+##### Change dir to `generator-latte` folder, and run `npm link`
 > cd `generator-latte`
 > npm link
