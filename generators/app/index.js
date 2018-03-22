@@ -2,12 +2,11 @@
 * @Author: WUZHILONG860
 * @Date:   2018-03-22 19:21:45
 * @Last Modified by:   WUZHILONG860
-* @Last Modified time: 2018-03-22 22:29:20
+* @Last Modified time: 2018-03-22 23:00:14
 */
 'use strict';
 
 const Generator = require('yeoman-generator');
-const beautify = require('gulp-beautify');
 const chalk = require('chalk');
 const yosay = require('yosay');
 const utils = require('../utils/file-util');
